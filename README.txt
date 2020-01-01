@@ -8,5 +8,4 @@ The only dependency that doesn't ship with python base is PyQt5 (pip install PyQ
 
 Licensing- PyQt5 has its own licensing requirements. See the License.txt file for licensing specific to this program.
 
-Questions?
-cdensmore101@gmail.com
+Feel free to point out any issues or request additional features (no promises though).
