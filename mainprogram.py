@@ -109,7 +109,7 @@ class RunProgram(QMainWindow):
 
         #setting up dictionary to store data for each tab
         global alltabdata
-        alltabdata = {}
+        alltabdata = []
 
         #tab tracking
         self.totaltabs = 0
@@ -158,75 +158,75 @@ class RunProgram(QMainWindow):
     def makenewtab(self):     
         try:
 
-            newtabnum,curtabstr = self.addnewtab()
+            newtabnum = self.addnewtab()
     
             #creates dictionary entry for current tab- you can add additional key/value combinations for the opened tab at any point after the dictionary has been initialized
-            alltabdata[curtabstr] = {"tab":QWidget(),"tablayout":QGridLayout(),
-                      "tabtype":"newtab","testvariable":False}
+            alltabdata.append({"tab":QWidget(),"tablayout":QGridLayout(),
+                      "tabtype":"newtab","testvariable":False})
 
-            self.setnewtabcolor(alltabdata[curtabstr]["tab"])
+            self.setnewtabcolor(alltabdata[newtabnum]["tab"])
             
-            alltabdata[curtabstr]["tablayout"].setSpacing(10)
+            alltabdata[newtabnum]["tablayout"].setSpacing(10)
     
             #creating new tab, assigning basic info
-            self.tabWidget.addTab(alltabdata[curtabstr]["tab"],'New Tab') 
+            self.tabWidget.addTab(alltabdata[newtabnum]["tab"],'New Tab') 
             self.tabWidget.setCurrentIndex(newtabnum)
             self.tabWidget.setTabText(newtabnum, "New Tab #" + str(self.totaltabs))
-            alltabdata[curtabstr]["tabnum"] = self.totaltabs #assigning unique, unchanging number to current tab
-            alltabdata[curtabstr]["tablayout"].setSpacing(10)
+            alltabdata[newtabnum]["tabnum"] = self.totaltabs #assigning unique, unchanging number to current tab
+            alltabdata[newtabnum]["tablayout"].setSpacing(10)
             
             
             #and add new buttons and other widgets
-            alltabdata[curtabstr]["tabwidgets"] = {}
+            alltabdata[newtabnum]["tabwidgets"] = {}
 
             #making widgets
-            alltabdata[curtabstr]["tabwidgets"]["sourcetitle"] = QLabel(' Source:') #1
-            alltabdata[curtabstr]["tabwidgets"]["refresh"] = QPushButton('Refresh')  # 2
-            alltabdata[curtabstr]["tabwidgets"]["options"] = QComboBox() #3
-            alltabdata[curtabstr]["tabwidgets"]["options"].addItem('Item A')
-            alltabdata[curtabstr]["tabwidgets"]["options"].addItem('Item B')
-            alltabdata[curtabstr]["currentoption"] = alltabdata[curtabstr]["tabwidgets"]["options"].currentText()
+            alltabdata[newtabnum]["tabwidgets"]["sourcetitle"] = QLabel(' Source:') #1
+            alltabdata[newtabnum]["tabwidgets"]["refresh"] = QPushButton('Refresh')  # 2
+            alltabdata[newtabnum]["tabwidgets"]["options"] = QComboBox() #3
+            alltabdata[newtabnum]["tabwidgets"]["options"].addItem('Item A')
+            alltabdata[newtabnum]["tabwidgets"]["options"].addItem('Item B')
+            alltabdata[newtabnum]["currentoption"] = alltabdata[newtabnum]["tabwidgets"]["options"].currentText()
             
-            alltabdata[curtabstr]["tabwidgets"]["sb1title"] = QLabel('Spinbox 1:') #4
-            alltabdata[curtabstr]["tabwidgets"]["sb2title"] = QLabel('Spinbox 2:') #5
+            alltabdata[newtabnum]["tabwidgets"]["sb1title"] = QLabel('Spinbox 1:') #4
+            alltabdata[newtabnum]["tabwidgets"]["sb2title"] = QLabel('Spinbox 2:') #5
             
-            alltabdata[curtabstr]["tabwidgets"]["sb1"] = QSpinBox() #6
-            alltabdata[curtabstr]["tabwidgets"]["sb1"].setRange(1,99)
-            alltabdata[curtabstr]["tabwidgets"]["sb1"].setSingleStep(1)
-            alltabdata[curtabstr]["tabwidgets"]["sb1"].setValue(12)
+            alltabdata[newtabnum]["tabwidgets"]["sb1"] = QSpinBox() #6
+            alltabdata[newtabnum]["tabwidgets"]["sb1"].setRange(1,99)
+            alltabdata[newtabnum]["tabwidgets"]["sb1"].setSingleStep(1)
+            alltabdata[newtabnum]["tabwidgets"]["sb1"].setValue(12)
             
-            alltabdata[curtabstr]["tabwidgets"]["sb2"] = QDoubleSpinBox() #7
-            alltabdata[curtabstr]["tabwidgets"]["sb2"].setRange(20, 30)
-            alltabdata[curtabstr]["tabwidgets"]["sb2"].setSingleStep(0.25)
-            alltabdata[curtabstr]["tabwidgets"]["sb2"].setDecimals(2)
-            alltabdata[curtabstr]["tabwidgets"]["sb2"].setValue(23.5)
+            alltabdata[newtabnum]["tabwidgets"]["sb2"] = QDoubleSpinBox() #7
+            alltabdata[newtabnum]["tabwidgets"]["sb2"].setRange(20, 30)
+            alltabdata[newtabnum]["tabwidgets"]["sb2"].setSingleStep(0.25)
+            alltabdata[newtabnum]["tabwidgets"]["sb2"].setDecimals(2)
+            alltabdata[newtabnum]["tabwidgets"]["sb2"].setValue(23.5)
             
             #run function every time spinbox value is changed
-            #alltabdata[curtabstr]["tabwidgets"]["sb2"].valueChanged.connect(self.callbackfunction) 
+            #alltabdata[newtabnum]["tabwidgets"]["sb2"].valueChanged.connect(self.callbackfunction) 
             
-            alltabdata[curtabstr]["tabwidgets"]["b1"] = QPushButton('Button 1') #8
-            alltabdata[curtabstr]["tabwidgets"]["b2"] = QPushButton('Button 2') #9
-            alltabdata[curtabstr]["tabwidgets"]["b3"] = QPushButton('Button 3') #10
+            alltabdata[newtabnum]["tabwidgets"]["b1"] = QPushButton('Button 1') #8
+            alltabdata[newtabnum]["tabwidgets"]["b2"] = QPushButton('Button 2') #9
+            alltabdata[newtabnum]["tabwidgets"]["b3"] = QPushButton('Button 3') #10
             
-            alltabdata[curtabstr]["tabwidgets"]["t1t"] = QLabel('Entry 1:') #11
-            alltabdata[curtabstr]["tabwidgets"]["t1"] = QLineEdit('E1 example') #12
-            alltabdata[curtabstr]["tabwidgets"]["t2t"] = QLabel('Entry 2: ') #13
-            alltabdata[curtabstr]["tabwidgets"]["t2"] = QLineEdit('E2 example') #14
-            alltabdata[curtabstr]["tabwidgets"]["t3t"] = QLabel('Entry 3: ') #15
-            alltabdata[curtabstr]["tabwidgets"]["t3"] = QLineEdit('E3 example') #16
-            alltabdata[curtabstr]["tabwidgets"]["t4t"] = QLabel('Entry 4: ') #17
-            alltabdata[curtabstr]["tabwidgets"]["t4"] = QLineEdit('E4 example') #18
-            alltabdata[curtabstr]["tabwidgets"]["t5t"] = QLabel('Entry 5: ') #19
-            alltabdata[curtabstr]["tabwidgets"]["t5"] = QLineEdit('E5 example') #20
+            alltabdata[newtabnum]["tabwidgets"]["t1t"] = QLabel('Entry 1:') #11
+            alltabdata[newtabnum]["tabwidgets"]["t1"] = QLineEdit('E1 example') #12
+            alltabdata[newtabnum]["tabwidgets"]["t2t"] = QLabel('Entry 2: ') #13
+            alltabdata[newtabnum]["tabwidgets"]["t2"] = QLineEdit('E2 example') #14
+            alltabdata[newtabnum]["tabwidgets"]["t3t"] = QLabel('Entry 3: ') #15
+            alltabdata[newtabnum]["tabwidgets"]["t3"] = QLineEdit('E3 example') #16
+            alltabdata[newtabnum]["tabwidgets"]["t4t"] = QLabel('Entry 4: ') #17
+            alltabdata[newtabnum]["tabwidgets"]["t4"] = QLineEdit('E4 example') #18
+            alltabdata[newtabnum]["tabwidgets"]["t5t"] = QLabel('Entry 5: ') #19
+            alltabdata[newtabnum]["tabwidgets"]["t5"] = QLineEdit('E5 example') #20
             
             #formatting widgets
-            alltabdata[curtabstr]["tabwidgets"]["sb1title"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            alltabdata[curtabstr]["tabwidgets"]["sb2title"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            alltabdata[curtabstr]["tabwidgets"]["t1t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            alltabdata[curtabstr]["tabwidgets"]["t2t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            alltabdata[curtabstr]["tabwidgets"]["t3t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            alltabdata[curtabstr]["tabwidgets"]["t4t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            alltabdata[curtabstr]["tabwidgets"]["t5t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            alltabdata[newtabnum]["tabwidgets"]["sb1title"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            alltabdata[newtabnum]["tabwidgets"]["sb2title"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            alltabdata[newtabnum]["tabwidgets"]["t1t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            alltabdata[newtabnum]["tabwidgets"]["t2t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            alltabdata[newtabnum]["tabwidgets"]["t3t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            alltabdata[newtabnum]["tabwidgets"]["t4t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            alltabdata[newtabnum]["tabwidgets"]["t5t"].setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             
             #should be 19 entries 
             widgetorder = ["sourcetitle","refresh","options","sb1title","sb2title","sb1","sb2",
@@ -239,22 +239,24 @@ class RunProgram(QMainWindow):
     
             #adding user inputs
             for i,r,c,re,ce in zip(widgetorder,wrows,wcols,wrext,wcolext):
-                alltabdata[curtabstr]["tablayout"].addWidget(alltabdata[curtabstr]["tabwidgets"][i],r,c,re,ce)
+                alltabdata[newtabnum]["tablayout"].addWidget(alltabdata[newtabnum]["tabwidgets"][i],r,c,re,ce)
                     
             #adjusting stretch factors for all rows/columns
             colstretch = [5,1,1,1,1,1,1]
             for col,cstr in zip(range(0,len(colstretch)),colstretch):
-                alltabdata[curtabstr]["tablayout"].setColumnStretch(col,cstr)
+                alltabdata[newtabnum]["tablayout"].setColumnStretch(col,cstr)
             rowstretch = [1,1,1,1,1,1,1,1,10]
             for row,rstr in zip(range(0,len(rowstretch)),rowstretch):
-                alltabdata[curtabstr]["tablayout"].setRowStretch(row,rstr)
+                alltabdata[newtabnum]["tablayout"].setRowStretch(row,rstr)
 
             #making the current layout for the tab
-            alltabdata[curtabstr]["tab"].setLayout(alltabdata[curtabstr]["tablayout"])
+            alltabdata[newtabnum]["tab"].setLayout(alltabdata[newtabnum]["tablayout"])
 
         except Exception: #if something breaks
             trace_error()
             self.posterror("Failed to build new tab")
+            
+            
         
         
         
@@ -268,12 +270,15 @@ class RunProgram(QMainWindow):
         self.totaltabs += 1
         self.tabnumbers.append(self.totaltabs)
         newtabnum = self.tabWidget.count()
-        curtabstr = "Tab "+str(self.totaltabs) #pointable string for alltabdata dict
-        return newtabnum,curtabstr
+        return newtabnum
+        
+        
 
     #gets index of open tab in GUI
     def whatTab(self):
         return self.tabnumbers[self.tabWidget.currentIndex()]
+        
+        
     
     #renames tab (only user-visible name, not alltabdata dict key)
     def renametab(self):
@@ -285,6 +290,8 @@ class RunProgram(QMainWindow):
         except Exception:
             trace_error()
             self.posterror("Failed to rename the current tab")
+            
+            
     
     #sets default color scheme for tabs
     def setnewtabcolor(self,tab):
@@ -296,6 +303,8 @@ class RunProgram(QMainWindow):
         p.setBrush(QPalette.Window, QBrush(gradient))
         tab.setAutoFillBackground(True)
         tab.setPalette(p)
+        
+        
             
     #closes a tab
     def closecurrenttab(self):
@@ -307,8 +316,6 @@ class RunProgram(QMainWindow):
             if reply == QMessageBox.Yes:
 
                 #getting tab to close
-                curtab = int(self.whatTab())
-                curtabstr = "Tab " + str(curtab)
                 indextoclose = self.tabWidget.currentIndex()
                 
                 #add any additional necessary commands (stop threads, prevent memory leaks, etc) here
@@ -317,12 +324,14 @@ class RunProgram(QMainWindow):
                 self.tabWidget.removeTab(indextoclose)
 
                 #removing current tab data from the alltabdata dict, correcting tabnumbers variable
-                alltabdata.pop("Tab "+str(curtab))
+                alltabdata.pop(indextoclose)
                 self.tabnumbers.pop(indextoclose)
 
         except Exception:
             trace_error()
             self.posterror("Failed to close the current tab")
+            
+            
                 
     #save data in open tab        
     def savedataincurtab(self):
@@ -340,7 +349,7 @@ class RunProgram(QMainWindow):
             QApplication.setOverrideCursor(Qt.WaitCursor)
             
             #pulling all relevant data
-            curtabstr = "Tab " + str(self.whatTab())
+            ctab = self.tabWidget.currentIndex()
             
             #write code to save open files here
                 
@@ -352,6 +361,8 @@ class RunProgram(QMainWindow):
         finally:
             QApplication.restoreOverrideCursor()
             return True
+            
+            
         
     #warning message
     def postwarning(self,warningtext):
@@ -362,6 +373,8 @@ class RunProgram(QMainWindow):
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec_()
         
+        
+        
     #error message
     def posterror(self,errortext):
         msg = QMessageBox()
@@ -370,6 +383,8 @@ class RunProgram(QMainWindow):
         msg.setWindowTitle("Error")
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec_()
+        
+        
     
     #warning message with options (Okay or Cancel)
     def postwarning_option(self,warningtext):
@@ -385,6 +400,8 @@ class RunProgram(QMainWindow):
         elif outval == 4194304:
             option = 'cancel'
         return option
+        
+        
     
     #add warning message before closing GUI
     def closeEvent(self, event):
@@ -395,19 +412,6 @@ class RunProgram(QMainWindow):
 
             if self.preferencesopened:
                 self.settingsthread.close()
-
-            #explicitly closing figures to clean up memory (should be redundant here but just in case)
-            for curtabstr in alltabdata:
-                if alltabdata[curtabstr]["tabtype"] == "ProfileEditor":
-                    plt.close(alltabdata[curtabstr]["ProfFig"])
-                    plt.close(alltabdata[curtabstr]["LocFig"])
-
-                elif alltabdata[curtabstr]["tabtype"] == 'SignalProcessor_incomplete' or alltabdata[curtabstr]["tabtype"] == 'SignalProcessor_completed':
-                    plt.close(alltabdata[curtabstr]["ProcessorFig"])
-
-                    #aborting all threads
-                    if alltabdata[curtabstr]["isprocessing"]:
-                        alltabdata[curtabstr]["processor"].abort()
 
             event.accept()
         else:
